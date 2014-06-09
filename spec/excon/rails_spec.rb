@@ -31,7 +31,7 @@ module Excon
       Rails::Railtie.run_initializers
       Excon.get('http://example.com')
       expect(@logger.logged(:debug)[0])
-        .to match(%r{Excon Request \(\d\.\d+ms\)  GET http://example\.com/})
+        .to match(%r{Excon Request \(\d+\.\d+ms\)  GET http://example\.com/})
     end
   end
 end
