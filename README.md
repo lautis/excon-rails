@@ -1,4 +1,4 @@
-# Excon::Rails
+# Excon::Rails [![Build Status](https://travis-ci.org/lautis/excon-rails.svg?branch=master)](https://travis-ci.org/lautis/excon-rails)
 
 Railtie to include Excon HTTP requests in Rails logging.
 
