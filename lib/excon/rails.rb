@@ -9,7 +9,7 @@ module Excon
   module Rails
     Middleware.install
 
-    Railtie, LogSubscriber = SweetNotifications.subscribe :excon do
+    Railtie, LogSubscriber = SweetNotifications.subscribe :excon, label: 'Excon' do
       color ActiveSupport::LogSubscriber::BLUE
 
       event :request do |event|
