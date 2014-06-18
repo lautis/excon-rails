@@ -49,8 +49,8 @@ module Excon
         payload = event.payload
         url = "#{payload[:scheme]}://#{payload[:host]}#{payload[:path]}"
         type = event.name.split('.').first.titleize
-        method = event.payload[:method].upcase
-        message(event, "Excon #{type}", "#{method} #{url}")
+        method = event.payload[:method].try(:upcase)
+        message(event, "Excon #{type}", [method, url].compact.join(' '))
       end
     end
 

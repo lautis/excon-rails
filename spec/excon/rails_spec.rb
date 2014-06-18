@@ -33,5 +33,13 @@ module Excon
       expect(@logger.logged(:debug)[0])
         .to match(%r{Excon Request \(\d+\.\d+ms\)  GET http://example\.com/})
     end
+
+    it 'deals with missing method' do
+      @logger.level = Logger::DEBUG
+      Rails::Railtie.run_initializers
+      Excon.new('http://example.com').request
+      expect(@logger.logged(:debug)[0])
+        .to match(%r{Excon Request \(\d+\.\d+ms\)  http://example\.com/})
+    end
   end
 end
