@@ -13,22 +13,22 @@ module Excon
       color ActiveSupport::LogSubscriber::BLUE
 
       event :request do |event|
-        return unless logger.debug?
+        next unless logger.debug?
         debug request_info(event)
       end
 
       event :response do |event|
-        return unless logger.debug?
+        next unless logger.debug?
         debug message(event, 'Excon Response', "#{status(event)} (#{length(event)})")
       end
 
       event :retry do |event|
-        return unless logger.debug?
+        next unless logger.debug?
         debug request_info(event)
       end
 
       event :error do |event|
-        return unless logger.info?
+        next unless logger.info?
         info message(event, 'Excon Error', event.payload[:error])
       end
 

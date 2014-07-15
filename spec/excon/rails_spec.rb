@@ -41,5 +41,14 @@ module Excon
       expect(@logger.logged(:debug)[0])
         .to match(%r{Excon Request \(\d+\.\d+ms\)  http://example\.com/})
     end
+
+    it 'omits debug logging in production' do
+      @logger.level = Logger::ERROR
+      Rails::Railtie.run_initializers
+      Excon.new('http://example.com').request
+      expect(@logger.logged(:debug)).to be_empty
+      expect(@logger.logged(:info)).to be_empty
+      expect(@logger.logged(:error)).to be_empty
+    end
   end
 end
