@@ -1,4 +1,16 @@
 describe Excon::Rails::Middleware do
+  Notifications = ActiveSupport::Notifications
+
+  def with_subscription(channel)
+    payloads = []
+    Notifications.subscribe channel do |_name, _start, _finish, _id, payload|
+      payloads << payload
+    end
+    yield
+    Notifications.unsubscribe channel
+    payloads
+  end
+
   before :each do
     stub_request(:any, 'example.com').to_return(body: 'abc', status: 200)
     stub_request(:any, 'example.com/timeout').to_timeout
@@ -6,49 +18,40 @@ describe Excon::Rails::Middleware do
   end
 
   it 'emits events for requests' do
-    received = 0
-    ActiveSupport::Notifications.subscribe 'request.excon' do
-      received += 1
+    received = with_subscription 'request.excon' do
+      Excon.get('http://example.com')
     end
-    Excon.get('http://example.com')
-    ActiveSupport::Notifications.unsubscribe 'request.excon'
-    expect(received).to eq(1)
+    expect(received.length).to eq(1)
   end
 
   it 'emits events for responses' do
-    statuses = []
-    ActiveSupport::Notifications.subscribe 'response.excon' do |name, start, finish, id, payload|
-      statuses << payload[:status]
+    payloads = with_subscription 'response.excon' do
+      Excon.get('http://example.com')
     end
-    Excon.get('http://example.com')
+    statuses = payloads.map { |payload| payload[:status] }
     ActiveSupport::Notifications.unsubscribe 'response.excon'
     expect(statuses).to eq([200])
   end
 
   it 'emits events for retried requests' do
-    retries = 0
-    ActiveSupport::Notifications.subscribe 'retry.excon' do
-      retries += 1
+    retries = with_subscription 'retry.excon' do
+      connection = Excon.new('http://example.com/retry')
+      begin
+        connection.request(expects: [200], idempotent: true, retry_limit: 3)
+      rescue Excon::Errors::BadRequest
+      end
     end
-    connection = Excon.new('http://example.com/retry')
-    begin
-      connection.request(expects: [200], idempotent: true, retry_limit: 3)
-    rescue Excon::Errors::BadRequest
-    end
-    expect(retries).to eq(2)
-    ActiveSupport::Notifications.unsubscribe 'retry.excon'
+
+    expect(retries.length).to eq(2)
   end
 
   it 'emits events for errors' do
-    errors = 0
-    ActiveSupport::Notifications.subscribe 'error.excon' do
-      errors += 1
+    errors = with_subscription 'error.excon' do
+      begin
+        Excon.get('http://example.com/timeout')
+      rescue Excon::Errors::Timeout
+      end
     end
-    begin
-      Excon.get('http://example.com/timeout')
-    rescue Excon::Errors::Timeout
-    end
-    expect(errors).to eq(1)
-    ActiveSupport::Notifications.unsubscribe 'error.excon'
+    expect(errors.length).to eq(1)
   end
 end

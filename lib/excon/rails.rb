@@ -9,7 +9,8 @@ module Excon
   module Rails
     Middleware.install
 
-    Railtie, LogSubscriber = SweetNotifications.subscribe :excon, label: 'Excon' do
+    Railtie, LogSubscriber = SweetNotifications.subscribe :excon,
+                                                          label: 'Excon' do
       color ActiveSupport::LogSubscriber::BLUE
 
       event :request do |event|
@@ -19,7 +20,8 @@ module Excon
 
       event :response do |event|
         next unless logger.debug?
-        debug message(event, 'Excon Response', "#{status(event)} (#{length(event)})")
+        debug message(event, 'Excon Response',
+                      "#{status(event)} (#{length(event)})")
       end
 
       event :retry do |event|
@@ -53,6 +55,5 @@ module Excon
         message(event, "Excon #{type}", [method, url].compact.join(' '))
       end
     end
-
   end
 end
