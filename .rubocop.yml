@@ -1,0 +1,21 @@
+Lint/HandleExceptions:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/ConstantName:
+  Enabled: false
+
+Style/FileName:
+  Exclude:
+    - 'lib/excon-rails.rb'
+
+Style/LineLength:
+  Exclude:
+    - 'excon-rails.gemspec'
