@@ -1,8 +1,7 @@
 require 'excon/rails/version'
 require 'excon/rails/middleware'
 require 'sweet_notifications'
-require 'active_support/number_helper'
-require 'active_support/core_ext/string/inflections'
+require 'active_support'
 require 'excon'
 
 module Excon
