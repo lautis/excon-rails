@@ -1,3 +1,10 @@
+AllCops:
+  Exclude:
+    - excon-rails.gemspec
+    - lib/excon/rails/version.rb
+    - "vendor/**/*"
+    - "gemfiles/vendor/**/*"
+
 Lint/HandleExceptions:
   Exclude:
     - 'spec/**/*'
