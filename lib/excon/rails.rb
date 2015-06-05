@@ -49,6 +49,7 @@ module Excon
       def request_info(event)
         payload = event.payload
         url = "#{payload[:scheme]}://#{payload[:host]}#{payload[:path]}"
+        url << "?#{payload[:query]}" if payload[:query]
         type = event.name.split('.').first.titleize
         method = event.payload[:method].try(:upcase)
         message(event, "Excon #{type}", [method, url].compact.join(' '))
