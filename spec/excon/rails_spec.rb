@@ -1,7 +1,7 @@
 module Excon
   describe Rails do
     before do
-      stub_request(:any, 'example.com').to_return(body: 'OK')
+      stub_request(:any, /example\.com.*/).to_return(body: 'OK')
     end
 
     after do
@@ -32,6 +32,14 @@ module Excon
       Excon.get('http://example.com')
       expect(@logger.logged(:debug)[0])
         .to match(%r{Excon Request \(\d+\.\d+ms\)  GET http://example\.com/})
+    end
+
+    it 'logs query params to logger' do
+      @logger.level = Logger::DEBUG
+      Rails::Railtie.run_initializers
+      Excon.get('http://example.com?foo=bar&baz=bar')
+      expect(@logger.logged(:debug)[0])
+        .to match(%r{Excon Request \(\d+\.\d+ms\)  GET http://example\.com/\?foo=bar&baz=bar})
     end
 
     it 'deals with missing method' do
