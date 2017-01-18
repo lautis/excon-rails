@@ -279,7 +279,6 @@ Style/RegexpLiteral:
     characters. Use %r only for regular expressions matching more than `MaxSlashes`
     '/' character.
   Enabled: false
-  MaxSlashes: 1
 
 Style/Semicolon:
   Enabled: true
@@ -341,7 +340,7 @@ Style/TrailingBlankLines:
   SupportedStyles:
   - final_newline
   - final_blank_line
-Style/TrailingComma:
+Style/TrailingCommaInArguments:
   Enabled: false
   EnforcedStyleForMultiline: no_comma
   SupportedStyles:
@@ -457,8 +456,6 @@ Style/BlockComments:
   Enabled: true
 Style/BlockEndNewline:
   Enabled: true
-Style/Blocks:
-  Enabled: true
 Style/CaseEquality:
   Enabled: false
 Style/CharacterLiteral:
@@ -477,8 +474,6 @@ Style/ConstantName:
   Enabled: false
 Style/DefWithParentheses:
   Enabled: true
-Style/DeprecatedHashMethods:
-  Enabled: false
 Style/Documentation:
   Enabled: false
 Style/DoubleNegation:
@@ -561,13 +556,13 @@ Style/RescueModifier:
   Enabled: true
 Style/SelfAssignment:
   Enabled: false
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: true
 Style/SpaceAfterColon:
   Enabled: true
 Style/SpaceAfterComma:
   Enabled: true
-Style/SpaceAfterControlKeyword:
+Style/SpaceAroundKeyword:
   Enabled: true
 Style/SpaceAfterMethodName:
   Enabled: true
@@ -582,8 +577,6 @@ Style/SpaceBeforeComment:
 Style/SpaceBeforeSemicolon:
   Enabled: true
 Style/SpaceAroundOperators:
-  Enabled: true
-Style/SpaceBeforeModifierKeyword:
   Enabled: true
 Style/SpaceInsideBrackets:
   Enabled: true
@@ -604,8 +597,6 @@ Style/UnlessElse:
 Style/UnneededCapitalW:
   Enabled: true
 Style/UnneededPercentQ:
-  Enabled: true
-Style/UnneededPercentX:
   Enabled: true
 Style/VariableInterpolation:
   Enabled: false
